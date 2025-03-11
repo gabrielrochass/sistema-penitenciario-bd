@@ -1,0 +1,136 @@
+// define o esquema do banco de dados usando DBML (Database Markup Language).
+
+Table Detento {
+    cpf varchar(11) [primary key]
+    comportamento varchar(30)
+    data_ent date
+    sexo char(1)
+    data_nasc date
+    nome varchar(30)
+}
+
+Table Sentenca {
+    crime varchar(30)
+    cpf_detento varchar(11)
+    primary key (crime, cpf_detento)
+}
+
+Table Crime {
+    id_crime integer [primary key]
+    crime varchar(30)
+    cpf_detento varchar(11)
+    duracao integer
+}
+
+Table Visitante {
+    nome varchar(30)
+    sexo char(1)
+    data_nasc date
+    malfeitor varchar(11)
+    primary key (nome, malfeitor)
+}
+
+Table Tipo_Cela {
+    tipo_cela varchar(30) [primary key]
+    capacidade integer
+}
+
+Table Cela {
+    id_cela integer [primary key]
+    tipo varchar(15)
+}
+
+Table Endereco {
+    cep varchar(10) [primary key]
+    rua varchar(30)
+    numero integer
+    bairro varchar(30)
+}
+
+Table Funcionario {
+    cpf varchar(11) [primary key]
+    nome varchar(30)
+    data_nasc date
+    sexo char(1)
+    salario integer
+    data_admi date
+    cep varchar(10)
+}
+
+Table Diretor {
+    cpf_f varchar(11)
+    codigo integer [primary key]
+    data_inicio date
+}
+
+Table Superintendente {
+    cpf_f varchar(11) [primary key]
+    bonificacao integer
+    diretor integer
+}
+
+Table Ala {
+    id integer [primary key]
+    tipo char(1)
+    nivel_seg varchar(15)
+    autoridade varchar(11)
+}
+
+Table Telefone {
+    id integer [primary key]
+    telefone varchar(15)
+    funcionario varchar(11)
+}
+
+Table Guarda {
+    cpf_f varchar(11) [primary key]
+    turno varchar(11)
+    supervisionado varchar(11)
+}
+
+Table Sala_visita {
+    id integer [primary key]
+}
+
+Table Visita {
+    motivo varchar(30)
+    malfeitor varchar(11) [primary key]
+    data_hora date
+}
+
+Table Entrada {
+    visitante varchar(30)
+    data_hora date
+    malfeitor varchar(11)
+    primary key (visitante, data_hora)
+}
+
+Table Lugar {
+    data_hora date [primary key]
+    sala integer
+}
+
+Table Possui {
+    malfeitor varchar(11) [primary key]
+    cela integer
+    ala integer
+}
+
+Ref: Sentenca.cpf_detento > Detento.cpf
+Ref: Crime.cpf_detento > Detento.cpf
+Ref: Visitante.malfeitor > Detento.cpf
+Ref: Cela.tipo > Tipo_Cela.tipo_cela
+Ref: Funcionario.cep > Endereco.cep
+Ref: Diretor.cpf_f > Funcionario.cpf
+Ref: Superintendente.cpf_f > Funcionario.cpf
+Ref: Superintendente.diretor > Diretor.codigo
+Ref: Ala.autoridade > Superintendente.cpf_f
+Ref: Telefone.funcionario > Funcionario.cpf
+Ref: Guarda.supervisionado > Detento.cpf
+Ref: Visita.malfeitor > Visitante.malfeitor
+Ref: Entrada.visitante > Visitante.nome
+Ref: Entrada.malfeitor > Visitante.malfeitor
+Ref: Lugar.sala > Sala_visita.id
+Ref: Possui.malfeitor > Detento.cpf
+Ref: Possui.cela > Cela.id_cela
+Ref: Possui.ala > Ala.id

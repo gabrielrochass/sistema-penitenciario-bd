@@ -107,7 +107,7 @@ CREATE TABLE Telefone (
     id NUMBER PRIMARY KEY,
     telefone VARCHAR2(15),
     funcionario VARCHAR2(11),
-    CONSTRAINT fk_funcionario_telefone FOREIGN KEY (funcionario) REFERENCES Funcionario(cpf)
+    CONSTRAINT fk_funcionario_telefone FOREIGN KEY (funcionario) REFERENCES Funcionario(cpf) -- qualquer valor inserido na coluna funcionario da tabela atual deve existir na coluna cpf da tabela Funcionario 
 );
 
 
