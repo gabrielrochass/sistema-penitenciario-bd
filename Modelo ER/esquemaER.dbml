@@ -1,3 +1,5 @@
+// define o esquema do banco de dados usando DBML (Database Markup Language).
+
 Table Detento {
     cpf varchar(11) [primary key]
     comportamento varchar(30)
