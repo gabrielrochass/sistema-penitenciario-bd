@@ -1,4 +1,4 @@
-
+-- Sequência de números para serem usados como chave primária (id)
 CREATE SEQUENCE Sequencia_Geral
 START WITH 1
 INCREMENT BY 1;
@@ -7,29 +7,7 @@ CREATE SEQUENCE Sequencia_Sala
 START WITH 101
 INCREMENT BY 1;
 
-/*
-1. INDEPENDENTES
-	Endereco - Não depende de nenhuma outra tabela.
-    Sala_visita - Não depende de nenhuma outra tabela.
-
-2. DEPENDENTES
-	Funcionario - Depende de Endereco.
-    Diretor - Depende de Funcionario.
-    Superintendente - Depende de Funcionario e Diretor.
-    Ala - Depende de Superintendente.
-    Telefone - Depende de Funcionario.
-    Guarda - Depende de Funcionario (para supervisão, se aplicável).
-    Detento - Não depende de nenhuma outra tabela.
-    Sentenca - Depende de Detento.
-    Crime - Depende de Sentenca.
-    Visitante - Depende de Detento.
-    Cela - Depende de Tipo_Cela.
-    Visita - Depende de Detento.
-    Entrada - Depende de Visitante.
-    Lugar - Depende de Sala_visita.
-    Possui - Depende de Detento, Cela, e Ala.
-*/
--- Inserindo 20 dados na tabela Endereco
+-- Inserindo dados na tabela Endereco
 INSERT INTO Endereco (cep, rua, numero, bairro) VALUES ('12345678', 'Rua Machu Pichu', 100, 'Centro');
 INSERT INTO Endereco (cep, rua, numero, bairro) VALUES ('23456789', 'Rua Cristo Redentor', 200, 'Jardins');
 INSERT INTO Endereco (cep, rua, numero, bairro) VALUES ('34567890', 'Rua Petra', 300, 'Zona Sul');
@@ -59,6 +37,7 @@ INSERT INTO Endereco (cep, rua, numero, bairro) VALUES ('91247819', 'Rua Acropol
 INSERT INTO Tipo_Cela (tipo_cela, capacidade) VALUES ('REGULAR', 4);
 INSERT INTO Tipo_Cela (tipo_cela, capacidade) VALUES ('SOLITARIA', 1);
 
+
 -- Inserindo dados na tabela Sala_visita
 INSERT INTO Sala_visita (id) VALUES (Sequencia_Sala.NEXTVAL);
 INSERT INTO Sala_visita (id) VALUES (Sequencia_Sala.NEXTVAL);
@@ -70,9 +49,6 @@ INSERT INTO Sala_visita (id) VALUES (Sequencia_Sala.NEXTVAL);
 INSERT INTO Sala_visita (id) VALUES (Sequencia_Sala.NEXTVAL);
 INSERT INTO Sala_visita (id) VALUES (Sequencia_Sala.NEXTVAL);
 INSERT INTO Sala_visita (id) VALUES (Sequencia_Sala.NEXTVAL);
-
-
-
 
 
 -- Inserindo dados na tabela Funcionario
@@ -111,7 +87,6 @@ INSERT INTO Superintendente (cpf_f, bonificacao, diretor) VALUES ('12345678901',
 INSERT INTO Ala (id, tipo, nivel_seg, autoridade) VALUES (Sequencia_Geral.NEXTVAL, 'M', 'MAXIMA', '45678901234');
 INSERT INTO Ala (id, tipo, nivel_seg, autoridade) VALUES (Sequencia_Geral.NEXTVAL, 'M', 'MEDIA', '45678901234');
 INSERT INTO Ala (id, tipo, nivel_seg, autoridade) VALUES (Sequencia_Geral.NEXTVAL, 'M', 'PADRAO', '45678901234');
-
 INSERT INTO Ala (id, tipo, nivel_seg, autoridade) VALUES (Sequencia_Geral.NEXTVAL, 'F', 'MEDIA', '12345678901');
 INSERT INTO Ala (id, tipo, nivel_seg, autoridade) VALUES (Sequencia_Geral.NEXTVAL, 'F', 'MAXIMA', '12345678901');
 INSERT INTO Ala (id, tipo, nivel_seg, autoridade) VALUES (Sequencia_Geral.NEXTVAL, 'F', 'PADRAO', '12345678901');
@@ -217,8 +192,6 @@ INSERT INTO Guarda (cpf_f, turno, supervisionado) VALUES ('54987654321', 'VESPER
 INSERT INTO Guarda (cpf_f, turno, supervisionado) VALUES ('65987654321', 'MATUTINO', '92210987654');
 
 
--- Inserindo dados na tabela Detento
-
 -- Inserindo dados na tabela Sentenca
 INSERT INTO Sentenca (crime, cpf_detento) VALUES ('Roubo', '98876543210');
 INSERT INTO Sentenca (crime, cpf_detento) VALUES ('Assalto', '79987654321');
@@ -240,7 +213,6 @@ INSERT INTO Visitante (nome, sexo, data_nasc, malfeitor) VALUES ('Fiona Rocha', 
 INSERT INTO Visitante (nome, sexo, data_nasc, malfeitor) VALUES ('Vicente Pereira', 'M', TO_DATE('1985-11-25', 'YYYY-MM-DD'), '92210987654');
 
 
-
 -- Inserindo dados na tabela Cela
 INSERT INTO Cela (id_cela, tipo) VALUES (Sequencia_Geral.NEXTVAL, 'SOLITARIA');
 INSERT INTO Cela (id_cela, tipo) VALUES (Sequencia_Geral.NEXTVAL, 'SOLITARIA');
@@ -255,14 +227,6 @@ INSERT INTO Cela (id_cela, tipo) VALUES (Sequencia_Geral.NEXTVAL, 'REGULAR');
 -- Inserindo dados na tabela Visita
 INSERT INTO Visita (motivo, malfeitor, data_hora) VALUES ('Parente', '87765432109', TO_DATE('2024-08-10 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 INSERT INTO Visita (motivo, malfeitor, data_hora) VALUES ('Conjuge', '92210987654', TO_DATE('2024-08-11 15:30:00', 'YYYY-MM-DD HH24:MI:SS'));
-
--- Inserindo dados na tabela Entrada
-INSERT INTO Entrada (visitante, data_hora, malfeitor) VALUES ('Fiona Rocha', TO_DATE('2024-08-10 13:50:00', 'YYYY-MM-DD HH24:MI:SS'), '87765432109');
-INSERT INTO Entrada (visitante, data_hora, malfeitor) VALUES ('Vicente Pereira', TO_DATE('2024-08-11 15:20:00', 'YYYY-MM-DD HH24:MI:SS'), '92210987654');
-
--- Inserindo dados na tabela Lugar
-INSERT INTO Lugar (data_hora, sala) VALUES (TO_DATE('2024-08-10 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 101);
-INSERT INTO Lugar (data_hora, sala) VALUES (TO_DATE('2024-08-11 15:30:00', 'YYYY-MM-DD HH24:MI:SS'), 102);
 
 -- Inserindo dados na tabela Possui
 INSERT INTO Possui (malfeitor, cela, ala) VALUES ('87765432109', 49, 2);
