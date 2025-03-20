@@ -45,8 +45,14 @@ select * from Detento;
 INSERT INTO Detento (cpf, comportamento, data_ent, data_saida, sexo, data_nasc, nome)
 VALUES ('12345678901', 'Bom', TO_DATE('01-01-2020', 'DD-MM-YYYY'), NULL, 'M', TO_DATE('01-01-1985', 'DD-MM-YYYY'), 'João Grilo');
 
+select * from Detento;
+
 INSERT INTO Sentenca (crime, cpf_detento, duracao)
 VALUES ('Roubo', '12345678901', 5); -- 5 anos de sentença
 
+select * from Detento;
+
 INSERT INTO Sentenca (crime, cpf_detento, duracao)
 VALUES ('Fraude', '12345678901', 3); -- +3 anos = total de 8 anos de sentença
+
+select * from Detento;
