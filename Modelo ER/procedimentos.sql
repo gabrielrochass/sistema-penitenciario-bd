@@ -12,26 +12,32 @@ END;
 /
 
 
--- trigger para atualizar a data de saída
+-- trigger para atualizar a data de saída: não dá erro da tabela mutante pq usa cursor para percorrer os detentos e não FOR EACH ROW
 DROP TRIGGER atualizar_data_saida;
 
 CREATE OR REPLACE TRIGGER atualizar_data_saida
 AFTER INSERT OR UPDATE OR DELETE ON Sentenca
-FOR EACH ROW
 DECLARE
-    duracao_total NUMBER := 0;
+    -- cursor para obter todos os detentos com sentenças
+    CURSOR c_detentos IS 
+        SELECT DISTINCT cpf_detento FROM Sentenca; 
+    v_duracao_total NUMBER; -- armazena duração total da sentença
 BEGIN
-    -- soma todas as durações das sentenças do detento
-    SELECT NVL(SUM(duracao), 0) INTO duracao_total
-    FROM Sentenca
-    WHERE cpf_detento = :NEW.cpf_detento; -- new guarda o valor inserido na coluna cpf_detento no novo registro
+    -- para cada detento com sentença retornado pelo cursor
+    FOR detento IN c_detentos LOOP
+        -- soma todas as sentenças do detento
+        SELECT NVL(SUM(duracao), 0) INTO v_duracao_total
+        FROM Sentenca
+        WHERE cpf_detento = detento.cpf_detento;
 
-    -- atualiza a data de saída somando todos os anos de sentença à data de entrada
-    UPDATE Detento
-    SET data_saida = ADD_MONTHS(data_ent, duracao_total * 12) -- converte a duracao_total de anos pra meses e adiciona à data de entrada
-    WHERE cpf = :NEW.cpf_detento;
+        -- atualiza a data de saída no Detento
+        UPDATE Detento
+        SET data_saida = ADD_MONTHS(data_ent, v_duracao_total * 12)
+        WHERE cpf = detento.cpf_detento;
+    END LOOP;
 END;
 /
+
 
 -- teste: mesmo detento com duas sentenças
 select * from Detento;
