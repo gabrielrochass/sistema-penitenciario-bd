@@ -1,4 +1,20 @@
+-- trigger para definir o valor padrão de data_saida como data_ent -> por causa do oracle
+DROP TRIGGER trg_set_data_saida;
+
+CREATE OR REPLACE TRIGGER trg_set_data_saida
+BEFORE INSERT ON Detento
+FOR EACH ROW
+BEGIN
+    IF :NEW.data_saida IS NULL THEN
+        :NEW.data_saida := :NEW.data_ent;
+    END IF;
+END;
+/
+
+
 -- trigger para atualizar a data de saída
+DROP TRIGGER atualizar_data_saida;
+
 CREATE OR REPLACE TRIGGER atualizar_data_saida
 AFTER INSERT OR UPDATE OR DELETE ON Sentenca
 FOR EACH ROW
@@ -18,8 +34,10 @@ END;
 /
 
 -- teste: mesmo detento com duas sentenças
-INSERT INTO Detento (cpf, comportamento, data_ent, sexo, data_nasc, nome)
-VALUES ('12345678901', 'Bom', TO_DATE('01-01-2020', 'DD-MM-YYYY'), 'M', TO_DATE('01-01-1985', 'DD-MM-YYYY'), 'João Grilo');
+select * from Detento;
+
+INSERT INTO Detento (cpf, comportamento, data_ent, data_saida, sexo, data_nasc, nome)
+VALUES ('12345678901', 'Bom', TO_DATE('01-01-2020', 'DD-MM-YYYY'), NULL, 'M', TO_DATE('01-01-1985', 'DD-MM-YYYY'), 'João Grilo');
 
 INSERT INTO Sentenca (crime, cpf_detento, duracao)
 VALUES ('Roubo', '12345678901', 5); -- 5 anos de sentença
