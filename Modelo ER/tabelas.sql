@@ -3,6 +3,7 @@ CREATE TABLE Detento (
     cpf VARCHAR2(11) PRIMARY KEY,
     comportamento VARCHAR2(30),
     data_ent DATE NOT NULL,
+    data_saida DATE DEFAULT data_ent, -- data de saída padrão é a data de entrada
     sexo CHAR(1) NOT NULL,
     data_nasc DATE NOT NULL,
     nome VARCHAR2(30) NOT NULL,
@@ -13,18 +14,9 @@ CREATE TABLE Detento (
 CREATE TABLE Sentenca (
     crime VARCHAR2(30) NOT NULL,
     cpf_detento VARCHAR2(11) NOT NULL,
+    duracao NUMBER NOT NULL, -- atulizar automaticamente quando adicionar uma nova sentença ao mesmo cpf
     PRIMARY KEY (crime, cpf_detento),
     CONSTRAINT fk_malfeitor FOREIGN KEY (cpf_detento) REFERENCES Detento(cpf) -- constraint é uma restrição que impede a inserção de valores inválidos em uma coluna -> nesse caso, a coluna cpf_detento da tabela Sentenca só pode receber valores que existem na coluna cpf da tabela Detento
-);
-
--- Criação da tabela Crime
-CREATE TABLE Crime (
-    id_crime NUMBER PRIMARY KEY,
-    crime VARCHAR2(30) NOT NULL,
-    cpf_detento VARCHAR2(11) NOT NULL,
-    duracao NUMBER NOT NULL,
-    CONSTRAINT fk_crime FOREIGN KEY (crime, cpf_detento) REFERENCES Sentenca(crime, cpf_detento),
-    CHECK (duracao BETWEEN 1 AND 40) -- checa se a pena está entre 1 e 40 anos (máximo)
 );
 
 -- Criação da tabela Visitante -> entidade fraca pq depende de malfeitor (detento visitado) para existir

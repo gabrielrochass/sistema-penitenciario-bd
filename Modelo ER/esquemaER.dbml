@@ -5,6 +5,7 @@ Table Detento {
     cpf varchar(11) [primary key]
     comportamento varchar(30)
     data_ent date
+    data_saida date // usada no procedure
     sexo char(1)
     data_nasc date
     nome varchar(30)
@@ -14,13 +15,6 @@ Table Sentenca {
     crime varchar(30)
     cpf_detento varchar(11)
     primary key (crime, cpf_detento)
-}
-
-Table Crime {
-    id_crime integer [primary key]
-    crime varchar(30)
-    cpf_detento varchar(11)
-    duracao integer
 }
 
 Table Visitante {
@@ -99,13 +93,6 @@ Table Visita {
     data_hora date
 }
 
-Table Entrada {
-    visitante varchar(30)
-    data_hora date
-    malfeitor varchar(11)
-    primary key (visitante, data_hora)
-}
-
 Table Lugar {
     data_hora date [primary key]
     sala integer
@@ -118,7 +105,6 @@ Table Possui {
 }
 
 Ref: Sentenca.cpf_detento > Detento.cpf
-Ref: Crime.cpf_detento > Detento.cpf
 Ref: Visitante.malfeitor > Detento.cpf
 Ref: Cela.tipo > Tipo_Cela.tipo_cela
 Ref: Funcionario.cep > Endereco.cep
@@ -129,8 +115,6 @@ Ref: Ala.autoridade > Superintendente.cpf_f
 Ref: Telefone.funcionario > Funcionario.cpf
 Ref: Guarda.supervisionado > Detento.cpf
 Ref: Visita.malfeitor > Visitante.malfeitor
-Ref: Entrada.visitante > Visitante.nome
-Ref: Entrada.malfeitor > Visitante.malfeitor
 Ref: Lugar.sala > Sala_visita.id
 Ref: Possui.malfeitor > Detento.cpf
 Ref: Possui.cela > Cela.id_cela
