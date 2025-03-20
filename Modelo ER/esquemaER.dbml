@@ -1,8 +1,7 @@
 // define o esquema do banco de dados usando DBML (Database Markup Language).
 // https://dbdiagram.io/d/EsquemaER-Sistema-Penitenciario-67d0580e75d75cc844af26a2
 
-// define o esquema do banco de dados usando DBML (Database Markup Language).
-// https://dbdiagram.io/d/EsquemaER-Sistema-Penitenciario-67d0580e75d75cc844af26a2
+// Diagrama ER: https://app.diagrams.net/#G1b34ipavSY7zlRhj_ECRHJeXXYKVwv62S#%7B%22pageId%22%3A%22C5RBs43oDa-KdzZeNtuy%22%7D
 
 Table Detento {
     cpf varchar(11) [primary key, not null]
