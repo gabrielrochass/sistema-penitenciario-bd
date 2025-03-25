@@ -25,6 +25,9 @@ INSERT INTO Tipo_Cela (tipo_cela, capacidade) VALUES ('DUPLA', 2);
 INSERT INTO Cela (id_cela, tipo) VALUES (Sequencia_Geral.NEXTVAL, 'SOLITARIA');
 INSERT INTO Cela (id_cela, tipo) VALUES (Sequencia_Geral.NEXTVAL, 'REGULAR');
 INSERT INTO Cela (id_cela, tipo) VALUES (Sequencia_Geral.NEXTVAL, 'DUPLA');
+INSERT INTO Cela (id_cela, tipo) VALUES (Sequencia_Geral.NEXTVAL, 'REGULAR');
+INSERT INTO Cela (id_cela, tipo) VALUES (Sequencia_Geral.NEXTVAL, 'SOLITARIA');
+INSERT INTO Cela (id_cela, tipo) VALUES (Sequencia_Geral.NEXTVAL, 'SOLITARIA');
 
 -- Inserindo dados na tabela Sala_visita
 INSERT INTO Sala_visita (id) VALUES (Sequencia_Sala.NEXTVAL);
@@ -35,6 +38,11 @@ INSERT INTO Funcionario (cpf, nome, data_nasc, sexo, salario, data_admi, cep)
 VALUES ('12222222222', 'João Silva', TO_DATE('1980-01-01', 'YYYY-MM-DD'), 'M', 3000, TO_DATE('2010-05-15', 'YYYY-MM-DD'), '12345678');
 INSERT INTO Funcionario (cpf, nome, data_nasc, sexo, salario, data_admi, cep) 
 VALUES ('13333333333', 'Maria Oliveira', TO_DATE('1985-03-10', 'YYYY-MM-DD'), 'F', 3500, TO_DATE('2015-07-20', 'YYYY-MM-DD'), '23456789');
+INSERT INTO Funcionario (cpf, nome, data_nasc, sexo, salario, data_admi, cep)
+VALUES ('14444444444', 'José Santos', TO_DATE('1975-07-20', 'YYYY-MM-DD'), 'M', 4000, TO_DATE('2005-10-25', 'YYYY-MM-DD'), '34567890');
+INSERT INTO Funcionario (cpf, nome, data_nasc, sexo, salario, data_admi, cep)
+VALUES ('15555555555', 'Ana Souza', TO_DATE('1990-11-30', 'YYYY-MM-DD'), 'F', 3200, TO_DATE('2018-12-01', 'YYYY-MM-DD'), '45678901');
+
 
 -- Inserindo dados na tabela Diretor
 INSERT INTO Diretor (cpf_f, codigo, data_inicio) 
@@ -44,9 +52,21 @@ VALUES ('13333333333', 2, TO_DATE('2021-06-15', 'YYYY-MM-DD'));
 
 -- Inserindo dados na tabela Superintendente
 INSERT INTO Superintendente (cpf_f, bonificacao, diretor) 
-VALUES ('12222222222', 500, 1);
+VALUES ('14444444444', 500, 1);
 INSERT INTO Superintendente (cpf_f, bonificacao, diretor) 
-VALUES ('13333333333', 600, 2);
+VALUES ('15555555555', 600, 2);
+
+
+-- Inserindo dados na tabela Guarda
+INSERT INTO Guarda (cpf_f, turno, supervisionado)
+VALUES ('12222222222', 'NOTURNO', NULL);
+INSERT INTO Guarda (cpf_f, turno, supervisionado)
+VALUES ('14444444444', 'MATUTINO', '12222222222');
+INSERT INTO Guarda (cpf_f, turno, supervisionado)
+VALUES ('13333333333', 'NOTURNO', NULL);
+INSERT INTO Guarda (cpf_f, turno, supervisionado)
+VALUES ('15555555555', 'VESPERTINO', '13333333333');
+
 
 -- Inserindo dados na tabela Ala
 INSERT INTO Ala (id, tipo, nivel_seg, autoridade) 
@@ -89,11 +109,20 @@ VALUES ('Pedro Santos', 'M', TO_DATE('1985-11-15', 'YYYY-MM-DD'), '97765432109')
 -- Inserindo dados na tabela Visita
 INSERT INTO Visita (motivo, malfeitor, data_hora, visitante, sala_visita) 
 VALUES ('Parente', '98876543210', TO_DATE('2024-08-10 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Fiona Rocha', 101);
-INSERT INTO Visita (motivo, malfeitor, data_hora, visitante, sala_visita) 
-VALUES ('Amigo', '97765432109', TO_DATE('2024-08-11 15:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Pedro Santos', 102);
+INSERT INTO Visita (motivo, malfeitor, data_hora, visitante, sala_visita)
+VALUES ('Amigo(a)', '97765432109', TO_DATE('2024-08-10 15:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Pedro Santos', 102);
 
 -- Inserindo dados na tabela Possui
 INSERT INTO Possui (malfeitor, cela, ala) 
-VALUES ('98876543210', 1, 1);
+VALUES ('98876543210', 21, 4);
 INSERT INTO Possui (malfeitor, cela, ala) 
-VALUES ('97765432109', 2, 2);
+VALUES ('97765432109', 22, 5);
+
+-- Inserindo dados na tabela Sentenca
+INSERT INTO Sentenca (crime, cpf_detento, duracao)
+VALUES ('Homicídio', '98876543210', 10); -- 10 anos de sentença
+INSERT INTO Sentenca (crime, cpf_detento, duracao)
+VALUES ('Tráfico', '98876543210', 4); -- +4 anos = total de 14 anos de sentença
+INSERT INTO Sentenca (crime, cpf_detento, duracao)
+VALUES ('Homicídio', '97765432109', 8); -- 8 anos de sentença
+
