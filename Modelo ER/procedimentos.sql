@@ -32,7 +32,7 @@ BEGIN
 
         -- atualiza a data de saída no Detento
         UPDATE Detento
-        SET data_saida = ADD_MONTHS(data_ent, v_duracao_total * 12)
+        SET data_saida = LEAST(ADD_MONTHS(data_ent, v_duracao_total * 12), ADD_MONTHS(data_ent, 30 * 12)) -- min entre 30 anos e data_ent + duracao_total
         WHERE cpf = detento.cpf_detento;
     END LOOP;
 END;
