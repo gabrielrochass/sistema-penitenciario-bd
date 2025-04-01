@@ -1,3 +1,39 @@
+-- CONSULTAS SOLICITADAS
+
+-- 1. Selecione os nomes e datas de entrada dos detentos lotados nas celas da ala administrada pelo superintendente Jose Carlos
+SELECT d.nome, d.data_ent
+FROM Detento d
+JOIN Possui p ON d.cpf = p.malfeitor -- pega os detentos que possuem cela
+JOIN Cela c ON p.cela = c.id_cela -- pega as celas que possuem detentos
+JOIN Ala a ON p.ala = a.id -- pega as alas que possuem celas
+JOIN Superintendente s ON a.autoridade = s.cpf_f -- pega as alas que possuem superintendente
+JOIN Funcionario f ON s.cpf_f = f.cpf -- pega as informações do superintendente da tabela Funcionario
+WHERE f.nome = 'Jose Carlos';
+
+-- 2. Selecione os nomes dos visitantes do presídio cujo o diretor é o João Silva
+SELECT DISTINCT v.visitante -- nome do visitante
+FROM Visita v 
+JOIN Detento d ON v.malfeitor = d.cpf -- detento visitado
+JOIN Possui p ON d.cpf = p.malfeitor -- localiza o detento 
+JOIN Ala a ON p.ala = a.id  -- pega a ala que ele está
+JOIN Superintendente s ON a.autoridade = s.cpf_f -- pega o superintendente da ala
+JOIN Diretor dir ON s.diretor = dir.codigo -- pega o diretor -> chefe do superintendente
+JOIN Funcionario f ON dir.cpf_f = f.cpf -- nome do diretor
+WHERE f.nome = 'João Silva'; 
+
+-- 3. Selecione o Nome dos detentos lotados na cela de ID 035 que estão cumprindo pena pelo crime de assalto a banco
+SELECT d.nome
+FROM Detento d 
+JOIN Possui p ON d.cpf = p.malfeitor -- localiza o detento
+JOIN Sentenca s ON d.cpf = s.cpf_detento -- verifica a sentença do detento
+WHERE p.cela = 35 AND s.crime = 'Assalto a banco'; 
+
+
+
+
+
+-- CONSULTAS EXTRAS
+
 -- 1. Listar todos os detentos com suas respectivas datas de entrada e saída
 SELECT nome, cpf, data_ent, data_saida
 FROM Detento;
