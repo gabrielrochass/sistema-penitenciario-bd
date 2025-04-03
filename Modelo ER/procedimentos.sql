@@ -69,3 +69,66 @@ DELETE FROM Detento
 WHERE nome = 'Chicó';
 
 SELECT * FROM Detento;
+
+-- Crie um procedimento armazenado que verifique se durante a alocação de um detento em uma cela se sua capacidade máxima já foi atingida;
+CREATE OR REPLACE PROCEDURE verificar_capacidade_cela (
+    p_id_cela IN NUMBER
+) AS
+    v_capacidade_max NUMBER;
+    v_ocupacao_atual NUMBER;
+BEGIN
+    -- Obtém a capacidade máxima da cela
+    SELECT capacidade INTO v_capacidade_max
+    FROM Tipo_Cela tc
+    JOIN Cela c ON tc.tipo_cela = c.tipo
+    WHERE c.id_cela = p_id_cela;
+
+    -- Conta o número de detentos atualmente alocados na cela
+    SELECT COUNT(*) INTO v_ocupacao_atual
+    FROM Possui
+    WHERE cela = p_id_cela;
+
+    -- Verifica se a capacidade máxima foi atingida
+    IF v_ocupacao_atual >= v_capacidade_max THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Capacidade máxima da cela atingida.');
+    END IF;
+END;
+/
+
+-- teste: verificar capacidade da cela
+-- Informações sobre as celas e sua ocupação atual
+SELECT c.ID_CELA, c.tipo, tp_c.capacidade, NVL(ocupacao_atual, 0) AS ocupacao_atual
+FROM cela c
+JOIN tipo_cela tp_c ON c.tipo = tp_c.tipo_cela
+JOIN (
+    -- Contar quantos detentos tem em cada cela
+    SELECT cela, COUNT(*) AS ocupacao_atual
+    FROM Possui
+    ) ocupacao ON c.ID_CELA = ocupacao.cela;
+    
+-- Inserindo novos detentos na cela pra testar a capacidade
+BEGIN
+    INSERT INTO Detento (cpf, comportamento, data_ent, data_saida, sexo, data_nasc, nome)
+    VALUES ('11101129476', 'Bom', TO_DATE('01-01-2023', 'DD-MM-YYYY'), NULL, 'M', TO_DATE('01-01-1990', 'DD-MM-YYYY'), 'Gabriel Rocha');
+
+    INSERT INTO Possui (malfeitor, cela, ala)
+    VALUES ('11101129476', 35, 1);
+
+    INSERT INTO Detento (cpf, comportamento, data_ent, data_saida, sexo, data_nasc, nome)
+    VALUES ('65889673491', 'Excelente', TO_DATE('02-02-2023', 'DD-MM-YYYY'), NULL, 'F', TO_DATE('02-02-1992', 'DD-MM-YYYY'), 'Duda lopes');
+
+    INSERT INTO Possui (malfeitor, cela, ala)
+    VALUES ('65889673491', 35, 1);
+
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE(SQLERRM); -- Exibe o erro caso a capacidade máxima seja atingida
+END;
+/
+
+-- Removendo os comandos de inserção de detentos na cela para testar a capacidade
+DELETE FROM Possui
+WHERE malfeitor = '65889673491' AND cela = 35 AND ala = 1;
+
+DELETE FROM Possui
+WHERE malfeitor = '11101129476' AND cela = 35 AND ala = 1;
