@@ -19,7 +19,7 @@ JOIN Ala a ON p.ala = a.id  -- pega a ala que ele está
 JOIN Superintendente s ON a.autoridade = s.cpf_f -- pega o superintendente da ala
 JOIN Diretor dir ON s.diretor = dir.codigo -- pega o diretor -> chefe do superintendente
 JOIN Funcionario f ON dir.cpf_f = f.cpf -- nome do diretor
-WHERE f.nome = 'João Silva'; 
+WHERE f.nome = 'João Silva';
 
 -- 3. Selecione o Nome dos detentos lotados na cela de ID 035 que estão cumprindo pena pelo crime de assalto a banco
 SELECT d.nome
@@ -27,9 +27,6 @@ FROM Detento d
 JOIN Possui p ON d.cpf = p.malfeitor -- localiza o detento
 JOIN Sentenca s ON d.cpf = s.cpf_detento -- verifica a sentença do detento
 WHERE p.cela = 35 AND s.crime = 'Assalto a banco'; 
-
-
-
 
 
 -- CONSULTAS EXTRAS

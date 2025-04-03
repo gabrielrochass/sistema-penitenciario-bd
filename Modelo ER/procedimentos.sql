@@ -11,7 +11,6 @@ BEGIN
 END;
 /
 
-
 -- trigger para atualizar a data de saída: não dá erro da tabela mutante pq usa cursor para percorrer os detentos e não FOR EACH ROW
 DROP TRIGGER atualizar_data_saida;
 
@@ -26,7 +25,7 @@ BEGIN
     -- para cada detento com sentença retornado pelo cursor
     FOR detento IN c_detentos LOOP
         -- soma todas as sentenças do detento
-        SELECT NVL(SUM(duracao), 0) INTO v_duracao_total
+        SELECT NVL(SUM(duracao), 0) INTO v_duracao_total -- NVL: se não houver sentenças, retorna 0
         FROM Sentenca
         WHERE cpf_detento = detento.cpf_detento;
 
@@ -57,7 +56,15 @@ VALUES ('Tráfico', '98765432100', 4); -- +4 anos = total de 14 anos de sentenç
 
 select * from Detento;
 
+INSERT INTO Sentenca (crime, cpf_detento, duracao)
+VALUES ('Ser bonito demais', '98765432100', 29); -- +29 anos = total de 14 + 29 = 43
+
+select * from Detento;
+
 -- delete para testar trigger
+DELETE FROM Sentenca
+WHERE cpf_detento = (SELECT cpf FROM Detento WHERE nome = 'Chicó');
+
 DELETE FROM Detento
 WHERE nome = 'Chicó';
 

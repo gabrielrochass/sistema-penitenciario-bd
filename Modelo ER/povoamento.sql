@@ -126,3 +126,45 @@ VALUES ('Tráfico', '98876543210', 4); -- +4 anos = total de 14 anos de sentenç
 INSERT INTO Sentenca (crime, cpf_detento, duracao)
 VALUES ('Homicídio', '97765432109', 8); -- 8 anos de sentença
 
+-- Inserindo para teste de consulta 3
+-- Inserindo um detento
+INSERT INTO Detento (cpf, comportamento, data_ent, sexo, data_nasc, nome) 
+VALUES ('12345678901', 'Bom', TO_DATE('2024-01-01', 'YYYY-MM-DD'), 'M', TO_DATE('1990-05-15', 'YYYY-MM-DD'), 'João Silva');
+
+-- Inserindo uma cela
+INSERT INTO Cela (id_cela, tipo) 
+VALUES (35, 'REGULAR');
+
+-- Inserindo uma ala
+INSERT INTO Ala (id, tipo, nivel_seg, autoridade) 
+VALUES (1, 'M', 'MEDIA', '98765432101');
+
+-- Associando o detento à cela e à ala
+INSERT INTO Possui (malfeitor, cela, ala) 
+VALUES ('12345678901', 35, 1);
+
+-- Inserindo uma sentença para o detento
+INSERT INTO Sentenca (crime, cpf_detento, duracao) 
+VALUES ('Assalto a banco', '12345678901', 10);
+
+-- Inserindo um detento
+INSERT INTO Detento (cpf, comportamento, data_ent, sexo, data_nasc, nome) 
+VALUES ('12345678901', 'Bom', TO_DATE('2024-01-01', 'YYYY-MM-DD'), 'M', TO_DATE('1990-05-15', 'YYYY-MM-DD'), 'João Silva');
+
+-- Inserindo uma cela
+INSERT INTO Cela (id_cela, tipo) 
+VALUES (35, 'REGULAR');
+
+-- Inserindo uma ala
+INSERT INTO Ala (id, tipo, nivel_seg, autoridade) 
+VALUES (1, 'M', 'MEDIA', '98765432101');
+
+-- Associando o detento à cela e à ala
+INSERT INTO Possui (malfeitor, cela, ala) 
+VALUES ('12345678901', 35, 1);
+
+-- Inserindo uma sentença para o detento
+INSERT INTO Sentenca (crime, cpf_detento, duracao) 
+VALUES ('Assalto a banco', '12345678901', 10);
+
+
